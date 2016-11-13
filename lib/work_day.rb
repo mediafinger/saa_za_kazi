@@ -39,37 +39,9 @@ class WorkDay
     date.iso8601
   end
 
-  def csv_date
-    date.strftime("%d.%m.%Y")
-  end
-
-  def csv_day
-    date.strftime("%a")
-  end
-
-  def csv_fromto
-    if from && to
-      "#{from.strftime('%H:%M')} - #{to.strftime('%H:%M')}"
-    else
-      " " * 13
-    end
-  end
-
-  def long_date
-    date.strftime("%a %d.%b.%Y")
-  end
-
-  def output
-    [csv_date, csv_day, "#{formatted(hours)}h", csv_fromto, "-#{formatted(breaks)}h", description]
-  end
-
   private
 
   def log(method, options = {})
     Logger.error(self.class, method, options.merge(date: date))
-  end
-
-  def formatted(hours)
-    "%.2f" % hours.to_f
   end
 end

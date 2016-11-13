@@ -51,6 +51,13 @@ class Project
     sorted_by_break.first
   end
 
+  def output
+    {
+      head: %w(Date Day Hours From-To Breaks Description),
+      body: workdays.map(&:output)
+    }
+  end
+
   private
 
   def sorted_by_date

@@ -5,9 +5,9 @@ class Parser
     @path = path
   end
 
-  def read(options = {})
+  def from_csv(options = {})
     settings = {
-      col_sep:           options.fetch(:col_sep, ","),
+      col_sep:           options.fetch(:col_sep, ", "),
       encoding:          options.fetch(:encoding, "UTF-8"),
       quote_char:        options.fetch(:quote_char, '"'),
       row_sep:           options.fetch(:row_sep, "\n"),

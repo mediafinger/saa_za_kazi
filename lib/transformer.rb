@@ -2,7 +2,7 @@ require "csv"
 require_relative "./project.rb"
 require_relative "./work_day.rb"
 
-class Transformer
+class CSVTransformer
   attr_accessor :array, :head
 
   def initialize(csv)
@@ -17,6 +17,9 @@ class Transformer
     end
   end
 
+  # Expects input CSV to be formatted like:
+  # Date, Day, Hours, From-To, Breaks, Description
+  # 04.10.2016, Tue, 3h, 10:00 - 16:00, -3h, "My comments, and more"
   def row_to_workday(row)
     header = :date, :day, :hours, :fromto, :breaks, :description # @head
     hash = [header, row].transpose.to_h

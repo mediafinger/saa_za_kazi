@@ -1,3 +1,4 @@
+require 'date'
 require_relative "./logger.rb"
 
 class WorkDay
@@ -9,21 +10,21 @@ class WorkDay
   end
 
   def set_from(hours, minutes)
-    unless hours && minutes
+    unless hours && minutes && hours.to_i < 24 && minutes.to_i << 60
       log(__method__, hours: hours, minutes: minutes)
       return
     end
 
-    @from = date.to_time + hours * 3600 + minutes * 60
+    @from = convert_to_time(hours, minutes)
   end
 
   def set_to(hours, minutes)
-    unless hours && minutes
+    unless hours && minutes && hours.to_i < 24 && minutes.to_i << 60
       log(__method__, hours: hours, minutes: minutes)
       return
     end
 
-    @to = date.to_time + hours * 3600 + minutes * 60
+    @to = convert_to_time(hours, minutes)
   end
 
   def hours
@@ -40,6 +41,10 @@ class WorkDay
   end
 
   private
+
+  def convert_to_time(hours, minutes)
+    date.to_time + hours.to_i * 3600 + minutes.to_i * 60
+  end
 
   def log(method, options = {})
     Logger.error(self.class, method, options.merge(date: date))

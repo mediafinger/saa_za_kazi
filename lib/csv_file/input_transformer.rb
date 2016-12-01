@@ -35,6 +35,8 @@ module CSVFile
       workday.set_to(to[0], to[1]) if to
 
       workday
+    rescue IndexError => error
+      Logger.error(self.class, :row_to_workday, {error: error.class, message: error.message, row: row })
     end
   end
 end

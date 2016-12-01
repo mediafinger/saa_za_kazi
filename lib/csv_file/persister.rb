@@ -6,7 +6,7 @@ module CSVFile
       @data = data
     end
 
-    def save(path = "./output.csv", options = {})
+    def data(options = {})
       @settings = {
         col_sep:           options.fetch(:col_sep, ", "),
         encoding:          options.fetch(:encoding, "UTF-8"),
@@ -20,7 +20,11 @@ module CSVFile
         converters:        [->(value) { value&.strip }, ->(value) { value.empty? ? nil : value },]
       }
 
-      write_to_file(path, generate_csv)
+      generate_csv
+    end
+
+    def save(path = "./output.csv", options = {})
+      write_to_file(path, data(options))
       puts "Saved data to file #{path}"
     end
 
@@ -29,6 +33,15 @@ module CSVFile
     def write_to_file(path, data)
       open(path, 'w') do |file|
         file.puts data
+      end
+
+      if @data[:additional]
+        File.open(path, 'a') do |file|
+          file.write "# #{'-' * 70}\n"
+          @data[:additional].each do |line|
+            file.write "# #{line.inspect}\n"
+          end
+        end
       end
     end
 

@@ -26,6 +26,7 @@ module CSVFile
     def save(path = "./output.csv", options = {})
       write_to_file(path, data(options))
       puts "Saved data to file #{path}"
+      path
     end
 
     private

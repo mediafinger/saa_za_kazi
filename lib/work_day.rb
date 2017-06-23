@@ -29,7 +29,10 @@ class WorkDay
 
   def hours
     return 0 if from.nil? || to.nil?
-    (to - from) / 3600 - breaks
+
+    nightshift = to < from ? 24 : 0
+
+    (to - from) / 3600 - breaks + nightshift
   end
 
   def breaks=(hours)

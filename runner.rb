@@ -11,4 +11,5 @@ csv = CSVFile::Parser.new("./solarisBank_times.csv").read
 # csv = CSVFile::Parser.new("./generated_output.csv").read
 project = CSVFile::InputTransformer.new(csv, Project).create
 data = CSVFile::OutputTransformer.new(project, CSVFile::WorkDayDecorator, additional: true).format
-CSVFile::Persister.new(data).save
+path = CSVFile::Persister.new(data).save
+puts File.read(path)

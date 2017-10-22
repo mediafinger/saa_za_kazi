@@ -19,8 +19,12 @@ class Project
     # find workday with tags in description
   end
 
-  def days
-    workdays.count
+  # TODO: remove 2017 override
+  def days(from_date = first_day.date, to_date = last_day.date)
+    from_date = Date.new(2017, 1, 1)
+    to_date =   Date.new(2017, 12, 31)
+
+    @days ||= workdays.select { |day| day.hours > 0 && (from_date..to_date).include?(day.date) }
   end
 
   def first_day
@@ -40,11 +44,11 @@ class Project
   end
 
   def total_working_hours
-    workdays.reduce(0) { |sum, workday| sum + workday.hours }
+    days.reduce(0) { |sum, workday| sum + workday.hours }
   end
 
   def average_working_hours
-    total_working_hours / workdays.count
+    total_working_hours / days.count
   end
 
   def longest_break
